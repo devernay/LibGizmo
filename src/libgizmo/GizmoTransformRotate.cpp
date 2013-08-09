@@ -61,10 +61,10 @@ bool CGizmoTransformRotate::CheckRotatePlan(tvector3 &vNorm, float factor,
 {
     tvector3 df, inters;
     m_Axis2 = vNorm;
-    m_plan=vector4(m_pMatrix->GetTranslation(), vNorm);
+    m_plan=vector4(GetTranslation(), vNorm);
     m_plan.RayInter(inters,rayOrig,rayDir);
     ptd = inters;
-    df = inters - m_pMatrix->GetTranslation();
+    df = inters - GetTranslation();
     df/=GetScreenFactor();
 
     if ( ((df.Length()/factor) >0.9f) && ( (df.Length()/factor) < 1.1f) )
@@ -98,7 +98,7 @@ bool CGizmoTransformRotate::CheckRotatePlan(tvector3 &vNorm, float factor,
 bool CGizmoTransformRotate::GetOpType(ROTATETYPE &type, unsigned int x, unsigned int y)
 {
     tvector3 rayOrigin,rayDir, axis;
-    tvector3 dir = m_pMatrix->GetTranslation()-m_CamSrc;
+    tvector3 dir = GetTranslation()-m_CamSrc;
     dir.Normalize();
 
     BuildRay(x, y, rayOrigin, rayDir);
@@ -169,11 +169,11 @@ bool CGizmoTransformRotate::OnMouseDown(unsigned int x, unsigned int y)
 void CGizmoTransformRotate::Rotate1Axe(const tvector3& rayOrigin,const tvector3& rayDir)
 {
     tvector3 inters;
-    m_plan=vector4(m_pMatrix->GetTranslation(), m_Axis2);
+    m_plan=vector4(GetTranslation(), m_Axis2);
     m_plan.RayInter(inters,rayOrigin,rayDir);
     ptd = inters;
 
-    tvector3 df = inters - m_pMatrix->GetTranslation();
+    tvector3 df = inters - GetTranslation();
 
     df.Normalize();
     m_LockVertex2 = df;
@@ -241,13 +241,13 @@ void CGizmoTransformRotate::OnMouseMove(unsigned int x, unsigned int y)
         if (m_RotateType == ROTATE_TWIN)
         {
             tvector3 inters;
-            tvector3 dir = m_pMatrix->GetTranslation()-m_CamSrc;
+            tvector3 dir = GetTranslation()-m_CamSrc;
             dir.Normalize();
 
-            m_plan=vector4(m_pMatrix->GetTranslation(), dir);
+            m_plan=vector4(GetTranslation(), dir);
             m_plan.RayInter(inters,rayOrigin,rayDir);
             ptd = inters;
-            tvector3 df = inters - m_pMatrix->GetTranslation();
+            tvector3 df = inters - GetTranslation();
             df/=GetScreenFactor();
             float lng1 = df.Length();
             if (lng1 >= 1.0f) lng1 = 0.9f;
@@ -271,12 +271,6 @@ void CGizmoTransformRotate::OnMouseMove(unsigned int x, unsigned int y)
             mt2 = m_OrigScale;
             mt2.Multiply(mt);
             *m_pMatrix=mt2;
-            /*
-            if (mEditQT)
-            {
-            *mEditQT = tquaternion(mt2);
-            }
-            */
         }
         else
         {
@@ -300,11 +294,7 @@ void CGizmoTransformRotate::OnMouseUp(unsigned int x, unsigned int y)
 {
     m_RotateType = ROTATE_NONE;
 }
-/*
-            char tmps[512];
-            sprintf(tmps, "%5.2f %5.2f %5.2f %5.2f", plCam.x, plCam.y, plCam.z, plCam.w );
-            MessageBoxA(NULL, tmps, tmps, MB_OK);
-            */
+
 void CGizmoTransformRotate::Draw()
 {
     if (m_pMatrix)
@@ -315,7 +305,7 @@ void CGizmoTransformRotate::Draw()
         tvector3 right,up,frnt,dir;
 
         //glDisable(GL_DEPTH_TEST);
-        tvector3 orig(m_pMatrix->GetTranslation());
+        tvector3 orig(GetTranslation());
 
         tvector3 plnorm(m_CamSrc-orig);
 
@@ -422,30 +412,6 @@ void CGizmoTransformRotate::Draw()
         // camembert
         if ( (m_RotateType != ROTATE_NONE) && (m_RotateType != ROTATE_TWIN ) )
             DrawCamem(orig,m_Vtx*GetScreenFactor(),m_Vty*GetScreenFactor(),-m_Ng2);
-        /*
-        // debug
-        glPointSize(20);
-        glBegin(GL_POINTS);
-        glVertex3fv(&ptd.x);
-        glEnd();
-
-        glEnable(GL_DEPTH_TEST);
-        */
-#if 0
-#ifdef WIN32
-        GDD->GetD3D9Device()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-        GDD->GetD3D9Device()->SetRenderState(D3DRS_CULLMODE , D3DCULL_NONE );
-        GDD->GetD3D9Device()->SetRenderState(D3DRS_ZENABLE , D3DZB_TRUE);
-        GDD->GetD3D9Device()->SetRenderState(D3DRS_ALPHATESTENABLE , FALSE);
-        GDD->GetD3D9Device()->SetRenderState(D3DRS_ZWRITEENABLE , TRUE);
-#endif
-        extern RenderingState_t GRenderingState;
-        GRenderingState.mAlphaTestEnable = 0;
-        GRenderingState.mZWriteEnable = 1;
-        GRenderingState.mBlending = 0;
-        GRenderingState.mCulling = 0;
-        GRenderingState.mZTestType = 1;
-#endif
     }
 
 
@@ -460,7 +426,7 @@ void CGizmoTransformRotate::ApplyTransform(tvector3& trans, bool bAbsolute)
 
     if (bAbsolute)
     {
-        tvector3 translation = m_pMatrix->GetTranslation();
+        tvector3 translation = GetTranslation();
 
         //X
         mt.RotationAxis(GetVector(0),((trans.x/360)*ZPI));

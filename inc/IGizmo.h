@@ -74,6 +74,7 @@ public:
     virtual void SetLocation(LOCATION aLocation)  = 0;
     virtual LOCATION GetLocation() = 0;
     virtual void SetAxisMask(unsigned int mask) = 0;
+    virtual void SetOffset(float x, float y, float z) = 0;
 
     // rendering
     virtual void Draw() = 0;

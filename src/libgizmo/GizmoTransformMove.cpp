@@ -53,10 +53,10 @@ CGizmoTransformMove::~CGizmoTransformMove()
 tvector3 CGizmoTransformMove::RayTrace(tvector3& rayOrigin, tvector3& rayDir, tvector3& norm)
 {
     tvector3 df,inters;
-    m_plan=vector4(m_pMatrix->GetTranslation(), norm);
+    m_plan=vector4(GetTranslation(), norm);
     m_plan.RayInter(inters,rayOrigin,rayDir);
     ptd = inters;
-    df = inters - m_pMatrix->GetTranslation();
+    df = inters - GetTranslation();
     df /=GetScreenFactor();
     m_LockVertex = inters;
     return df;
@@ -77,12 +77,15 @@ bool CGizmoTransformMove::GetOpType(MOVETYPE &type, unsigned int x, unsigned int
     if (mLocation == LOCATE_LOCAL)
     {
         mt = *m_pMatrix;
+        mt.V4.position += vector4(m_Offset, 0.0f);
         mt.Inverse();
     }
     else
     {
         // world
-        mt.Translation( -m_pMatrix->V4.position);
+        tvector4 pos = m_pMatrix->V4.position;
+        pos += vector4(m_Offset, 0.0f);
+        mt.Translation(-pos);
     }
 
     // plan 1 : X/Z
@@ -209,7 +212,7 @@ void CGizmoTransformMove::Draw()
     {
 
         //glDisable(GL_DEPTH_TEST);
-        tvector3 orig = m_pMatrix->GetTranslation();
+        tvector3 orig = GetTranslation();
 
         tvector3 axeX(1,0,0),axeY(0,1,0),axeZ(0,0,1);
 
@@ -246,49 +249,7 @@ void CGizmoTransformMove::Draw()
         //plan3
         if (m_MoveTypePredict != MOVE_Z) DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,vector4(0,0,1,1));
             else DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,vector4(1,1,1,1));
-#if 0
-#ifdef WIN32
-    GDD->GetD3D9Device()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    GDD->GetD3D9Device()->SetRenderState(D3DRS_CULLMODE , D3DCULL_NONE );
-    GDD->GetD3D9Device()->SetRenderState(D3DRS_ZENABLE , D3DZB_TRUE);
-    GDD->GetD3D9Device()->SetRenderState(D3DRS_ALPHATESTENABLE , FALSE);
-    GDD->GetD3D9Device()->SetRenderState(D3DRS_ZWRITEENABLE , TRUE);
-#endif
-    extern RenderingState_t GRenderingState;
-    GRenderingState.mAlphaTestEnable = 0;
-    GRenderingState.mZWriteEnable = 1;
-    GRenderingState.mBlending = 0;
-    GRenderingState.mCulling = 0;
-    GRenderingState.mZTestType = 1;
-#endif
-/*
-
-PSM_LVERTEX svVts[2];
-    svVts[0].x = ptd.x;
-    svVts[0].y = ptd.y;
-    svVts[0].z = ptd.z;
-    svVts[0].diffuse = 0xFFFFFFFF;
-
-    svVts[1].x = ptd.x+10;
-    svVts[1].y = ptd.y+10;
-    svVts[1].z = ptd.z+10;
-    svVts[1].diffuse = 0xFFFFFFFF;
-
-
-    IDirect3DDevice9 *pDev = ((PSM_D3D9RenderDevice*)PSM_D3D9RenderDevice::GetInterfacePtr())->d3dDevice;
-    pDev->DrawPrimitiveUP(D3DPT_LINESTRIP , 1, svVts, sizeof(PSM_LVERTEX));
-    */
-}
-/*
-        // debug
-        glPointSize(20);
-        glBegin(GL_POINTS);
-        glVertex3fv(&ptd.x);
-        glEnd();
-
-        glEnable(GL_DEPTH_TEST);
-*/
-
+    }
 }
 
 void CGizmoTransformMove::ApplyTransform(tvector3& trans, bool bAbsolute)
