@@ -208,6 +208,7 @@ void CGizmoTransformMove::Draw()
 {
     ComputeScreenFactor();
 
+    Initialize();
     if (m_pMatrix)
     {
 

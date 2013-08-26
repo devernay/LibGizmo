@@ -204,7 +204,6 @@ public:
 
 protected:
     tmatrix *m_pMatrix;
-    tmatrix m_Model,m_Proj;
     tmatrix m_invmodel,m_invproj;
     tvector3 m_CamSrc,m_CamDir,m_CamUp,m_Offset;
 
