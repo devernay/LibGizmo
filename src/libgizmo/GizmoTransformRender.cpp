@@ -26,6 +26,10 @@
 // SOFTWARE.
 //
 
+#include <GL/glew.h>
+#ifndef NDEBUG
+#include <stdio.h>
+#endif
 
 #include "stdafx.h"
 #include "GizmoTransformRender.h"
@@ -35,6 +39,7 @@ static void AttachShader(const char *source, GLenum type, GLuint program)
     GLuint shader = glCreateShader(type);
     glShaderSource(shader, 1, &source, 0);
     glCompileShader(shader);
+#ifndef NDEBUG
     {
         GLint compiled, len;
         glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
@@ -48,6 +53,7 @@ static void AttachShader(const char *source, GLenum type, GLuint program)
             }
         }
     }
+#endif
     glAttachShader(program, shader);
     glDeleteShader(shader);
 }
@@ -103,6 +109,7 @@ void CGizmoTransformRender::Initialize()
         AttachShader(fragmentShader, GL_FRAGMENT_SHADER, m_Program);
         glBindAttribLocation(m_Program, 0, "inPosition");
         glLinkProgram(m_Program);
+#ifndef NDEBUG
         {
             GLint compiled, len;
             glGetProgramiv(m_Program, GL_LINK_STATUS, &compiled);
@@ -116,6 +123,7 @@ void CGizmoTransformRender::Initialize()
                 }
             }
         }
+#endif
         m_ColorUniform = glGetUniformLocation(m_Program, "color");
         m_ModelviewMatrixUniform = glGetUniformLocation(m_Program, "modelViewMatrix");
         m_ProjectionMatrixUniform = glGetUniformLocation(m_Program, "projectionMatrix");
