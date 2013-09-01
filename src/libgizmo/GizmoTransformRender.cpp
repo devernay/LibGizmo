@@ -71,13 +71,16 @@ CGizmoTransformRender::~CGizmoTransformRender()
     m_ColorUniform = 0;
     m_ModelviewMatrixUniform = 0;
     m_ProjectionMatrixUniform = 0;
-    glDeleteProgram(m_Program);
-    m_Program = 0;
+    if (m_Program) {
+        glDeleteProgram(m_Program);
+        m_Program = 0;
+    }
 }
 
 void CGizmoTransformRender::Initialize()
 {
     if (!m_Program) {
+        glewInit();
         m_Program = glCreateProgram();
         static const char vertexShader[] = ""
                 "#if __VERSION__ < 130\n"
@@ -316,5 +319,6 @@ void CGizmoTransformRender::ActivateProgram()
 
 void CGizmoTransformRender::DeactivateProgram()
 {
+    glDisableVertexAttribArray(0);
     glUseProgram(0);
 }
