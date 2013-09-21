@@ -26,7 +26,6 @@
 // SOFTWARE.
 //
 
-#include <GL/glew.h>
 #ifndef NDEBUG
 #include <stdio.h>
 #endif
@@ -80,7 +79,7 @@ CGizmoTransformRender::~CGizmoTransformRender()
 void CGizmoTransformRender::Initialize()
 {
     if (!m_Program) {
-        glewInit();
+        gizmo_ogl_LoadFunctions();
         m_Program = glCreateProgram();
         static const char vertexShader[] = ""
                 "#if __VERSION__ < 130\n"

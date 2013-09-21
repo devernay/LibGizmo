@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 project(gizmo)
 
 set(libgizmo_sources_base_dir "${CMAKE_CURRENT_SOURCE_DIR}/src/libgizmo")
+set(libgizmo_sources_glloadgen_dir "${CMAKE_CURRENT_SOURCE_DIR}/src/glloadgen")
 set(LIBGIZMO_SOURCES_CORE
     ${CMAKE_CURRENT_SOURCE_DIR}/inc/IGizmo.h
     ${libgizmo_sources_base_dir}/GizmoTransform.h
@@ -22,16 +23,12 @@ set(LIBGIZMO_SOURCES_CORE
     ${libgizmo_sources_base_dir}/ZMathsFunc.cpp
     ${libgizmo_sources_base_dir}/ZMathsFunc.h
     ${libgizmo_sources_base_dir}/stdafx.h
+    ${libgizmo_sources_glloadgen_dir}/gl_gizmo.c
+    ${libgizmo_sources_glloadgen_dir}/gl_gizmo.h
 )
 
-find_path(GLEW_INCLUDE_DIR GL/glew.h "${CMAKE_CURRENT_SOURCE_DIR}/../libvpvl2/vendor/GLEW-1.10.0" NO_DEFAULT_PATH)
-include_directories(${GLEW_INCLUDE_DIR})
-if(NOT WIN32)
-  find_path(GLEW_SOURCE_LOCATION glew.c "${CMAKE_CURRENT_SOURCE_DIR}/../libvpvl2/vendor/GLEW-1.10.0" NO_DEFAULT_PATH)
-  add_library(${PROJECT_NAME} ${LIBGIZMO_SOURCES_CORE} "${GLEW_SOURCE_LOCATION}/glew.c")
-else()
-  add_library(${PROJECT_NAME} ${LIBGIZMO_SOURCES_CORE})
-endif()
+add_library(${PROJECT_NAME} ${LIBGIZMO_SOURCES_CORE})
+include_directories(${libgizmo_sources_glloadgen_dir})
 
 find_package(OpenGL REQUIRED)
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/inc" ${OPENGL_INCLUDE_DIR})

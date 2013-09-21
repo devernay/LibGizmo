@@ -31,11 +31,7 @@
 #ifndef GIZMOTRANSFORMRENDER_H__
 #define GIZMOTRANSFORMRENDER_H__
 
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "gl_gizmo.h"
 
 typedef tvector4 tplane;
 struct tmatrix4;
