@@ -50,7 +50,12 @@ static void* SunGetProcAddress (const GLubyte* name)
 }
 #endif /* __sgi || __sun */
 
-#if defined(_WIN32)
+#ifdef GIZMO_EGL
+
+#include <EGL/egl.h>
+#define IntGetProcAddress(name) eglGetProcAddress(name)
+
+#elif defined(_WIN32)
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4055)
