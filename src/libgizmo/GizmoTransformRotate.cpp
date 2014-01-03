@@ -332,6 +332,7 @@ void CGizmoTransformRotate::Draw()
         right.Cross(dir,up);
         right.Normalize();
 
+        static const tvector3 selectedColor(1, 1, 0);
         tvector3 axeX(1,0,0),axeY(0,1,0),axeZ(0,0,1);
 
 
@@ -350,18 +351,18 @@ void CGizmoTransformRotate::Draw()
         {
 
             if (m_RotateTypePredict != ROTATE_TWIN)
-                DrawCircle(orig, 0.2f,0.2f,0.2f,right*GetScreenFactor(),up*GetScreenFactor());
+                DrawCircle(orig, tvector3(0.2f), right * GetScreenFactor(), up * GetScreenFactor());
             else
-                DrawCircle(orig, 1,1,1,right*GetScreenFactor(),up*GetScreenFactor());
+                DrawCircle(orig, selectedColor, right * GetScreenFactor(), up * GetScreenFactor());
         }
 
         // Screen
         if (mMask&AXIS_SCREEN)
         {
             if (m_RotateTypePredict != ROTATE_SCREEN)
-                DrawCircle(orig, 1.0f,0.3f,1.0f,up*1.2f*GetScreenFactor(),right*1.2f*GetScreenFactor());
+                DrawCircle(orig, tvector3(1.0f,0.3f,1.0f), up * 1.2f * GetScreenFactor(), right * 1.2f * GetScreenFactor());
             else
-                DrawCircle(orig, 1,1,1,up*1.2f*GetScreenFactor(),right*1.2f*GetScreenFactor());
+                DrawCircle(orig, selectedColor, up * 1.2f * GetScreenFactor(), right * 1.2f * GetScreenFactor());
         }
 
         // X
@@ -374,9 +375,9 @@ void CGizmoTransformRotate::Draw()
         if (mMask&AXIS_X)
         {
             if (m_RotateTypePredict != ROTATE_X)
-                DrawCircleHalf(orig, 1,0,0,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, tvector3(1,0,0), right * GetScreenFactor(), frnt * GetScreenFactor());
             else
-                DrawCircleHalf(orig, 1,1,1,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }
 
         // Y
@@ -391,9 +392,9 @@ void CGizmoTransformRotate::Draw()
         {
 
             if (m_RotateTypePredict != ROTATE_Y)
-                DrawCircleHalf(orig, 0,1,0,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, tvector3(0,1,0), right * GetScreenFactor(), frnt * GetScreenFactor());
             else
-                DrawCircleHalf(orig, 1,1,1,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }
 
         // Z
@@ -406,9 +407,9 @@ void CGizmoTransformRotate::Draw()
         if (mMask&AXIS_Z)
         {
             if (m_RotateTypePredict != ROTATE_Z)
-                DrawCircleHalf(orig, 0,0,1,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, tvector3(0,0,1), right * GetScreenFactor(), frnt * GetScreenFactor());
             else
-                DrawCircleHalf(orig, 1,1,1,right*GetScreenFactor(),frnt*GetScreenFactor(),plCam);
+                DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }
         // camembert
         if ( (m_RotateType != ROTATE_NONE) && (m_RotateType != ROTATE_TWIN ) )
