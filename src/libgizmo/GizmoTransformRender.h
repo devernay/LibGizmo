@@ -43,8 +43,8 @@ public:
     virtual ~CGizmoTransformRender();
 
     void Initialize();
-    void DrawCircle(const tvector3 &orig,float r,float g,float b,const tvector3 &vtx,const tvector3 &vty);
-    void DrawCircleHalf(const tvector3 &orig,float r,float g,float b,const tvector3 &vtx,const tvector3 &vty,tplane &camPlan);
+    void DrawCircle(const tvector3 &orig,const tvector3 &color,const tvector3 &vtx,const tvector3 &vty);
+    void DrawCircleHalf(const tvector3 &orig,const tvector3 &color,const tvector3 &vtx,const tvector3 &vty,tplane &camPlan);
     void DrawAxis(const tvector3 &orig, const tvector3 &axis, const tvector3 &vtx,const tvector3 &vty, float fct,float fct2,const tvector4 &col);
     void DrawCamem(const tvector3& orig,const tvector3& vtx,const tvector3& vty,float ng);
     void DrawQuad(const tvector3& orig, float size, bool bSelected, const tvector3& axisU, const tvector3 &axisV);

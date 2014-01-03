@@ -132,7 +132,7 @@ void CGizmoTransformRender::Initialize()
     }
 }
 
-void CGizmoTransformRender::DrawCircle(const tvector3 &orig, float r, float g, float b, const tvector3 &vtx, const tvector3 &vty)
+void CGizmoTransformRender::DrawCircle(const tvector3 &orig, const tvector3 &color, const tvector3 &vtx, const tvector3 &vty)
 {
     static const int size = 50;
     tvector3 vertices[size];
@@ -145,7 +145,7 @@ void CGizmoTransformRender::DrawCircle(const tvector3 &orig, float r, float g, f
     }
     glDisable(GL_DEPTH_TEST);
     ActivateProgram();
-    glUniform4f(m_ColorUniform, r, g, b, 1);
+    glUniform4f(m_ColorUniform, color.x, color.y, color.z, 1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), vertices);
     glDrawArrays(GL_LINE_LOOP, 0, size);
     DeactivateProgram();
@@ -153,7 +153,7 @@ void CGizmoTransformRender::DrawCircle(const tvector3 &orig, float r, float g, f
 }
 
 
-void CGizmoTransformRender::DrawCircleHalf(const tvector3 &orig, float r, float g, float b, const tvector3 &vtx, const tvector3 &vty, tplane &camPlan)
+void CGizmoTransformRender::DrawCircleHalf(const tvector3 &orig, const tvector3 &color, const tvector3 &vtx, const tvector3 &vty, tplane &camPlan)
 {
     static const int size = 30;
     tvector3 vertices[size];
@@ -169,7 +169,7 @@ void CGizmoTransformRender::DrawCircleHalf(const tvector3 &orig, float r, float 
     }
     glDisable(GL_DEPTH_TEST);
     ActivateProgram();
-    glUniform4f(m_ColorUniform, r, g, b, 1);
+    glUniform4f(m_ColorUniform, color.x, color.y, color.z, 1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), vertices);
     glDrawArrays(GL_LINE_STRIP, 0, j);
     DeactivateProgram();
