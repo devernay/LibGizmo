@@ -39,6 +39,7 @@ import qbs 1.0
 
 Product {
     id: libgizmo
+    property string debugLibrarySuffix: qbs.enableDebugCode ? "d" : ""
     type: "staticlibrary"
     name: "gizmo"
     version: "1.0.0"
@@ -56,5 +57,19 @@ Product {
         "inc",
         "src/glloadgen"
     ]
+    Properties {
+        condition: qbs.toolchain.contains("msvc")
+        cpp.cxxFlags: [ "/wd4068", "/wd4355", "/wd4819" ]
+        cpp.dynamicLibraries: [
+            "libGLESv2" + debugLibrarySuffix,
+            "libEGL" + debugLibrarySuffix
+        ]
+        cpp.defines: [ "GIZMO_EGL" ]
+    }
     Depends { name: "cpp" }
+    Depends {
+        name: "Qt"
+        condition: qbs.toolchain.contains("msvc")
+        submodules: [ "core", "gui" ]
+    }
 }
