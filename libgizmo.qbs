@@ -58,6 +58,10 @@ Product {
         "src/glloadgen"
     ]
     Properties {
+        condition: qbs.targetOS.contains("osx")
+        cpp.minimumOsxVersion: "10.6"
+    }
+    Properties {
         condition: qbs.toolchain.contains("msvc")
         cpp.cxxFlags: [ "/wd4068", "/wd4355", "/wd4819" ]
         cpp.dynamicLibraries: [
