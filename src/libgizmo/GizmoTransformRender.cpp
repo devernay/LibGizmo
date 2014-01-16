@@ -176,7 +176,7 @@ void CGizmoTransformRender::DrawCircleHalf(const tvector3 &orig, const tvector3 
     glEnable(GL_DEPTH_TEST);
 }
 
-void CGizmoTransformRender::DrawAxis(const tvector3 &orig, const tvector3 &axis, const tvector3 &vtx, const tvector3 &vty, float fct, float fct2, const tvector4 &col)
+void CGizmoTransformRender::DrawAxis(const tvector3 &orig, const tvector3 &axis, const tvector3 &vtx, const tvector3 &vty, float fct, float fct2, const tvector3 &col)
 {
     tvector3 vertices1[2] = { orig, orig + axis };
     tvector3 vertices2[62];
@@ -196,7 +196,7 @@ void CGizmoTransformRender::DrawAxis(const tvector3 &orig, const tvector3 &axis,
     }
     glDisable(GL_DEPTH_TEST);
     ActivateProgram();
-    glUniform4fv(m_ColorUniform, 1, &col.x);
+    glUniform4f(m_ColorUniform, col.x, col.y, col.z, 1);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices1[0]), vertices1);
     glDrawArrays(GL_LINES, 0, 2);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices2[0]), vertices2);
@@ -220,7 +220,7 @@ void CGizmoTransformRender::DrawCamem(const tvector3 &orig, const tvector3 &vtx,
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     ActivateProgram();
-    glUniform4f(m_ColorUniform, 1, 1, 0, 0.5);
+    glUniform4f(m_ColorUniform, 0xf0 / 255.0, 0x12 / 255.0, 0xbe / 255.0, 0.5);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), vertices);
     glDrawArrays(GL_TRIANGLE_FAN, 0, j);
     j = 0;

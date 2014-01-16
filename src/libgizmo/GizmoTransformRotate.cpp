@@ -332,7 +332,10 @@ void CGizmoTransformRotate::Draw()
         right.Cross(dir,up);
         right.Normalize();
 
-        static const tvector3 selectedColor(1, 1, 0);
+        static const tvector3 selectedColor(0xff / 255.0, 0xdc / 255.0, 0),
+                unitXColor(1, 0x41 / 255.0, 0x36 / 255.0),
+                unitYColor(0x2e / 255.0, 0xcc / 255.0, 0x40 / 255.0),
+                unitZColor(0, 0x74 / 255.0, 0xd9 / 255.0);
         tvector3 axeX(1,0,0),axeY(0,1,0),axeZ(0,0,1);
 
 
@@ -375,7 +378,7 @@ void CGizmoTransformRotate::Draw()
         if (mMask&AXIS_X)
         {
             if (m_RotateTypePredict != ROTATE_X)
-                DrawCircle(orig, tvector3(1,0,0), right * GetScreenFactor(), frnt * GetScreenFactor());
+                DrawCircle(orig, unitXColor, right * GetScreenFactor(), frnt * GetScreenFactor());
             else
                 DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }
@@ -392,7 +395,7 @@ void CGizmoTransformRotate::Draw()
         {
 
             if (m_RotateTypePredict != ROTATE_Y)
-                DrawCircle(orig, tvector3(0,1,0), right * GetScreenFactor(), frnt * GetScreenFactor());
+                DrawCircle(orig, unitYColor, right * GetScreenFactor(), frnt * GetScreenFactor());
             else
                 DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }
@@ -407,7 +410,7 @@ void CGizmoTransformRotate::Draw()
         if (mMask&AXIS_Z)
         {
             if (m_RotateTypePredict != ROTATE_Z)
-                DrawCircle(orig, tvector3(0,0,1), right * GetScreenFactor(), frnt * GetScreenFactor());
+                DrawCircle(orig, unitZColor, right * GetScreenFactor(), frnt * GetScreenFactor());
             else
                 DrawCircle(orig, selectedColor, right * GetScreenFactor(), frnt * GetScreenFactor());
         }

@@ -239,17 +239,22 @@ void CGizmoTransformMove::Draw()
         axeY*=GetScreenFactor();
         axeZ*=GetScreenFactor();
 
+        static const tvector3 selectedColor(0xff / 255.0, 0xdc / 255.0, 0),
+                unitXColor(1, 0x41 / 255.0, 0x36 / 255.0),
+                unitYColor(0x2e / 255.0, 0xcc / 255.0, 0x40 / 255.0),
+                unitZColor(0, 0x74 / 255.0, 0xd9 / 255.0);
+
         // plan1
-        if (m_MoveTypePredict != MOVE_X) DrawAxis(orig,axeX,axeY,axeZ,0.05f,0.83f,vector4(1,0,0,1));
-            else DrawAxis(orig,axeX,axeY,axeZ, 0.05f,0.83f,vector4(1,1,1,1));
+        if (m_MoveTypePredict != MOVE_X) DrawAxis(orig,axeX,axeY,axeZ,0.05f,0.83f,unitXColor);
+            else DrawAxis(orig,axeX,axeY,axeZ, 0.05f,0.83f,selectedColor);
 
         //plan2
-        if (m_MoveTypePredict != MOVE_Y) DrawAxis(orig,axeY,axeX,axeZ, 0.05f,0.83f,vector4(0,1,0,1));
-            else DrawAxis(orig,axeY,axeX,axeZ, 0.05f,0.83f,vector4(1,1,1,1));
+        if (m_MoveTypePredict != MOVE_Y) DrawAxis(orig,axeY,axeX,axeZ, 0.05f,0.83f,unitYColor);
+            else DrawAxis(orig,axeY,axeX,axeZ, 0.05f,0.83f,selectedColor);
 
         //plan3
-        if (m_MoveTypePredict != MOVE_Z) DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,vector4(0,0,1,1));
-            else DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,vector4(1,1,1,1));
+        if (m_MoveTypePredict != MOVE_Z) DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,unitZColor);
+            else DrawAxis(orig,axeZ,axeX,axeY, 0.05f,0.83f,selectedColor);
     }
 }
 
