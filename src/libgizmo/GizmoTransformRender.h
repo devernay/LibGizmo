@@ -31,7 +31,11 @@
 #ifndef GIZMOTRANSFORMRENDER_H__
 #define GIZMOTRANSFORMRENDER_H__
 
+#ifdef GIZMO_ENABLE_QT
+#include <QOpenGLContext>
+#else
 #include "gl_gizmo.h"
+#endif
 
 typedef tvector4 tplane;
 struct tmatrix4;

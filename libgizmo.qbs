@@ -45,17 +45,15 @@ Product {
     version: "1.0.0"
     files: [
         "src/libgizmo/*.cpp",
-        "src/libgizmo/*.h",
-        "src/glloadgen/*.c",
-        "src/glloadgen/*.h"
+        "src/libgizmo/*.h"
     ]
     excludeFiles: [
         "src/libgizmo/GizmoTransformRenderDX9.cpp",
         "src/libgizmo/stdafx.cpp"
     ]
+    cpp.defines: [ "GIZMO_ENABLE_QT" ]
     cpp.includePaths: [
-        "inc",
-        "src/glloadgen"
+        "inc"
     ]
     Properties {
         condition: qbs.targetOS.contains("osx")
@@ -73,7 +71,6 @@ Product {
     Depends { name: "cpp" }
     Depends {
         name: "Qt"
-        condition: qbs.toolchain.contains("msvc")
         submodules: [ "core", "gui" ]
     }
 }

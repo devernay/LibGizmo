@@ -33,6 +33,10 @@
 #include "stdafx.h"
 #include "GizmoTransformRender.h"
 
+#ifdef GIZMO_ENABLE_QT
+#define gizmo_ogl_LoadFunctions()
+#endif
+
 static void AttachShader(const char *source, GLenum type, GLuint program)
 {
     GLuint shader = glCreateShader(type);
