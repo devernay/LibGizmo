@@ -35,3 +35,7 @@ if(EXAMPLE_GLFW)
   find_library(GLFW_LIBRARY glfw)
   target_link_libraries(gizmo_glfw ${GLFW_LIBRARY} ${PROJECT_NAME})
 endif()
+
+if(EXAMPLE_GLFW3)
+    add_subdirectory(src/glfw3)
+endif()
